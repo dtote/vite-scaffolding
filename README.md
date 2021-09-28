@@ -37,7 +37,7 @@ A common structure should look like this one:
     │   ├── asset1.svg
     │   └── asset2.jpg
     ├── css
-    │   └── style.css
+    │   └── index.css
     ├── js
     │   └── main.js
     └── index.html

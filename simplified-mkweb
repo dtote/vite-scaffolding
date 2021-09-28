@@ -1,0 +1,108 @@
+#!/bin/bash
+VERSION=0.1
+NAME=$1
+
+if [ $# -eq 0 ]; then
+  echo "Sintaxis:"
+  echo -e "  $(basename $0) <nombre-carpeta>\n"
+  exit
+fi
+
+npm init vite@latest $NAME -- --template vanilla -y
+cd "$NAME"
+
+git init
+
+cat >apackage.json << EOF
+{
+  "scripts": {
+    "build": "rm -rf dist && vite build",
+    "deploy": "gh-pages -d dist"
+  },
+  "keywords": [],
+  "license": "ISC"
+}
+EOF
+
+jq -s '.[0] * .[1]' package.json apackage.json >package2.json
+rm apackage.json package.json index.html
+mv package2.json package.json
+rm main.js style.css favicon.svg
+
+mkdir -p src/{css,assets,js}
+touch src/index.html
+touch src/css/index.css
+touch src/js/index.js
+
+cat >.gitignore << EOF
+node_modules/
+dist/
+EOF
+
+cat >src/index.html << EOF
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="./css/index.css">
+  <script type="module" src="./js/index.js"></script>
+</head>
+<body>
+
+</body>
+</html>
+EOF
+
+cat >vite.config.js << EOF
+const path = require("path");
+const mode = process.env.NODE_ENV === "production" ? "production" : "development";
+const base = mode === "production" ? "/" + path.basename(process.cwd()) + "/" : "/";
+
+module.exports = {
+  root: "src",
+  base,
+  mode,
+  publicDir: "../public",
+  build: {
+    outDir: "../dist",
+    assetsDir: "./"
+  }
+};
+EOF
+
+cat >.stylelintrc << EOF
+{
+  "extends": "stylelint-config-standard",
+  "rules": {
+    "declaration-colon-newline-after": "always-multi-line",
+    "selector-type-no-unknown": null,
+    "property-no-unknown": [
+      true,
+      {
+        "ignoreProperties": [
+          "content-visibility"
+        ]
+      }
+    ],
+    "selector-nested-pattern": "^&",
+    "no-descending-specificity": null,
+    "no-eol-whitespace": null,
+    "declaration-empty-line-before": null
+  }
+EOF
+
+npm install --save --package-lock-only --no-package-lock -D \
+    stylelint stylelint-config-standard \
+    gh-pages
+
+cd $NAME
+npm install
+
+cat << EOF
+¡Listo! Recuerda añadir tu repositorio 
+git remote add origin <repo>
+npm run dev
+EOF
