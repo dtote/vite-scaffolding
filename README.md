@@ -1,12 +1,10 @@
 # Vite Scaffolding
 
 ## Vite instalation
-First of all, we need to install the vite package to start creating projects, so we can do it in two different ways: 
+First of all, we need to install the vite package to start creating projects. This we can do in two different ways: 
   - Standard installation: ```sudo apt-get install create-vite```
-  - Alternative installation: ```npm init vite```
-
-On the alternative installation we'll get this message: 
+  - By creating a new vite project directly: ```npm init vite```.
+If done this way,we'll get this message: 
 ![vite-installation](./assets/vite-installation.jpg)
-
-And we'll say yes to install it.
+To which we'll want to say yes.
 
