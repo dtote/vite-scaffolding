@@ -2,7 +2,7 @@
 
 ## Vite installation
 First of all, we need to install the vite package to start creating projects. This we can do in two different ways: 
-  - Standard installation: ```sudo apt-get install create-vite```
+  - Standard installation: ```npm i -g create-vite```
   - By creating a new vite project directly: ```npm init vite```.
 If done this way,we'll get this message: 
 
@@ -15,6 +15,9 @@ After the installation, a menu will appear, where we can choose our preferred op
 ![vite-installer-options](./assets/vite-installer-options.jpg)
 
 Note: if you chose to install via standard instalation, you will need to run ```npm init vite``` to get the scaffolding built now.
+
+Also we have to include vite package to development dependency's by running: 
+```npm i -D create-vite```
 
 Once the project is created we just have to follow the instructions to move into the folder and install the dependencies.
 
@@ -32,10 +35,8 @@ A common structure should look like this one:
 ├── package.json
 ├── package-lock.json
 ├── README.md
+├── public
 └── src
-    ├── assets
-    │   ├── asset1.svg
-    │   └── asset2.jpg
     ├── css
     │   └── index.css
     ├── js
@@ -44,7 +45,7 @@ A common structure should look like this one:
 
 ```
 
-So a fast-way to get this structure done could be by deleting all files created by vite except for ```package.json ,package-lock.json, node-modules, .gitignore``` and running this on terminal: 
+So a fast-way to get this structure done could be by deleting all files created by vite except for ```package.json ,package-lock.json, node_modules, .gitignore``` and running this on terminal: 
 ```
 mkdir -p dist src/{css,js,assets}
 touch src/js/index.js src/css/index.css src/index.html
